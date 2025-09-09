@@ -20,18 +20,26 @@ public class PlayerController : MonoBehaviour
     {
         Movement();
     }
-    void OnMove(InputValue movementValue)
+   /* void OnMove(InputValue movementValue)
     {
         Vector2 moveDir = movementValue.Get<Vector2>();
+
         moveDir *= moveSpeed;
-        rb.AddForce(moveDir);
-    }
+        Vector3 movement = new Vector3(moveDir.x, 0, 0);
+        this.gameObject.transform.position += movement;
+    }*/
     private void Movement()
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
-        
+        float moveDir = Input.GetAxis("Horizontal");
+
+        moveDir *= moveSpeed;
+        Vector3 movement = new Vector3(moveDir, 0, 0);
+        this.gameObject.transform.position += movement;
+
+
     }
 }
