@@ -464,6 +464,8 @@ MonoBehaviour:
   - {fileID: 9213303517018773185, guid: bcc43365128d073478d6abb3d4bb66d5, type: 3}
   - {fileID: 5926477330886529112, guid: 65b084cb6d04cd04098acf583b08711a, type: 3}
   - {fileID: 2201325750536084943, guid: 3382b468d7db0ec4085ad0c2d76ca857, type: 3}
+  - {fileID: 5926477330886529112, guid: 4edd78d9880b91543819337d9dbd10d1, type: 3}
+  - {fileID: 5926477330886529112, guid: 1d9b7837dbe7c754db0e8ec2f92eaf91, type: 3}
   lanes:
   - {fileID: 1236266599}
   - {fileID: 1613331929}
@@ -591,7 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea22a28138db5846b8b9354b5e124f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpStrength: 75
+  jumpStrength: 45
   moveSpeed: 0.1
   uiMan: {fileID: 1500889052}
 --- !u!114 &815320529

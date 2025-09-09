@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
+            rb.linearVelocity = Vector3.zero;
             rb.AddForce(new Vector3(0, jumpStrength, 0));
         }
         float moveDir = Input.GetAxis("Horizontal");

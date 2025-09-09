@@ -19,9 +19,9 @@ public class ObstacleManager : MonoBehaviour
     void Start()
     {
         obstacleTimer = obstacleCooldown;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i <= 2; i++)
         {
-            GameObject obstacle = obstacles[Random.Range(0, obstacles.Count)];
+            GameObject obstacle = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Count - 1)];
             GameObject obj = Instantiate(obstacle, lanes[i]);
             obstacles.Add(obj);
         }
