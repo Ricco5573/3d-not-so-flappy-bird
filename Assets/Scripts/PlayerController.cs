@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private int score = 0;
     private bool isAlive = true;
+    [SerializeField]
+    private UIManager uiMan;
 
     private void Start()
     {
@@ -18,16 +20,28 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        Movement();
+        if (isAlive)
+        {
+            Movement();
+        }
     }
-   /* void OnMove(InputValue movementValue)
-    {
-        Vector2 moveDir = movementValue.Get<Vector2>();
 
-        moveDir *= moveSpeed;
-        Vector3 movement = new Vector3(moveDir.x, 0, 0);
-        this.gameObject.transform.position += movement;
-    }*/
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Obstacle" && isAlive)
+        {
+            isAlive = false;
+            uiMan.PlayerDeath();
+        }
+    }
+    /* void OnMove(InputValue movementValue)
+     {
+         Vector2 moveDir = movementValue.Get<Vector2>();
+
+         moveDir *= moveSpeed;
+         Vector3 movement = new Vector3(moveDir.x, 0, 0);
+         this.gameObject.transform.position += movement;
+     }*/
     private void Movement()
     {
         if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
@@ -39,7 +53,5 @@ public class PlayerController : MonoBehaviour
         moveDir *= moveSpeed;
         Vector3 movement = new Vector3(moveDir, 0, 0);
         this.gameObject.transform.position += movement;
-
-
     }
 }
