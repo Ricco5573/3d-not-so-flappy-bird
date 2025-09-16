@@ -30,12 +30,12 @@ public class ObstacleManager : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
-        for (int j = 0; j <= 1; j++)
+        for (int j = 0; j <= 3; j++)
         {
 
                 Debug.Log("Spawning");
                 float spawnDistance = spawnPos.position.z - controller.transform.position.z;
-                Vector3 spawnPosition = new Vector3(spawnPos.position.x, spawnPos.position.y, spawnPos.position.z - (spawnDistance  / (j+1)));
+                Vector3 spawnPosition = new Vector3(spawnPos.position.x, spawnPos.position.y,  spawnDistance  * (0.25f * j));
                 GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
                 GameObject obj = Instantiate(obstacle, spawnPosition, Quaternion.identity);
                 rooms.Add(obj);

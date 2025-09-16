@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -21,10 +22,19 @@ public class PlayerController : MonoBehaviour
     private UIManager uiMan;
     private GameManager gameManager;
 
+    private List<ParticleSystem> engineParticles;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.isKinematic = true;
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
+        engineParticles = new List<ParticleSystem>();
+        engineParticles.AddRange(gameObject.GetComponentsInChildren<ParticleSystem>());
+        foreach (ParticleSystem particle in engineParticles)
+        {
+            particle.Stop();
+        }
     }
     void Update()
     {
@@ -40,6 +50,11 @@ public class PlayerController : MonoBehaviour
         {
             isAlive = false;
             uiMan.PlayerDeath();
+            gameManager.ResetGame();
+            foreach (ParticleSystem particle in engineParticles)
+            {
+                particle.Stop();
+            }
         }
     }
     /* void OnMove(InputValue movementValue)
@@ -59,8 +74,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(new Vector3(0, jumpStrength, 0));
             if (!started)
             {
-                gameManager.StartGame();
-                started = true;
+                StartGame();
             }
         }
         if (started)
@@ -73,6 +87,28 @@ public class PlayerController : MonoBehaviour
             float lean = movement.x * leanAmount;
             targetRotation = quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, lean);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * leanSpeed);
+        }
+    }
+
+
+    private void StartGame()
+    {
+        gameManager.StartGame();
+        started = true;
+        foreach (ParticleSystem particle in engineParticles)
+        {
+            particle.Play();
+        }
+        rb.isKinematic = false;
+    }
+    private void HandleParticles()
+    {
+        if (!started)
+        {
+            foreach(ParticleSystem particle in engineParticles)
+            {
+                particle.playbackSpeed = gameManager.GetGameSpeed(); //i get its deprecated, but the suggested other solution doesnt work.
+            }
         }
     }
 }

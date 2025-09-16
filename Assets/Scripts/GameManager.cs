@@ -17,6 +17,10 @@ public class GameManager : MonoBehaviour
     {
         gameSpeed = 1;
     }
+    public void ResetGame()
+    {
+        gameSpeed = 0;
+    }
     // Update is called once per frame
     void Update()
     {
