@@ -7,10 +7,10 @@ public class ObstacleManager : MonoBehaviour
 {
 
     [SerializeField]
-    private List<GameObject> obstaclePrefabs = new List<GameObject>();
+    private List<GameObject> roomPrefabs = new List<GameObject>();
     private List<GameObject> removalQueue = new List<GameObject>(); 
-    private List<GameObject> obstacles = new List<GameObject>();
-    private int removalTimer = 0;
+    private List<GameObject> rooms = new List<GameObject>();
+    private float removalTimer = 0;
     [SerializeField]
     private PlayerController controller;
     [SerializeField]
@@ -30,15 +30,15 @@ public class ObstacleManager : MonoBehaviour
         
         for (int j = 0; j <= 2; j++)
         {
-            for (int i = 0; i <= 2; i++)
+            for (int i = 0; i <= lanes.Length -1; i++)
             {
                 Debug.Log("Spawning");
                 Vector3 spawnPos = lanes[i].position;
                 float spawnDistance = spawnPos.z - controller.transform.position.z;
                 spawnPos = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z - (spawnDistance  / (j+1)) + 15);
-                GameObject obstacle = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Count - 1)];
+                GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
                 GameObject obj = Instantiate(obstacle, spawnPos, Quaternion.identity);
-                obstacles.Add(obj);
+                rooms.Add(obj);
             }
         } 
     }
@@ -46,7 +46,7 @@ public class ObstacleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach(GameObject obstacle in obstacles)
+        foreach(GameObject obstacle in rooms)
         {
             obstacle.transform.position = new Vector3(obstacle.transform.position.x, obstacle.transform.position.y, obstacle.transform.position.z - obstacleSpeed);
             if(obstacle.transform.position.z < controller.transform.position.z)
@@ -54,34 +54,32 @@ public class ObstacleManager : MonoBehaviour
                 removalQueue.Add(obstacle);
             }
         }
-        if (removalTimer > 30)
+        if (removalQueue.Count > 0)
         {
-            if (removalQueue.Count > 0)
-            {
-                uiMan.Score();
-            }
-            for (int i = 0; i <= removalQueue.Count - 1; i++)
+            int removalcount = removalQueue.Count;
+            uiMan.Score();
+            for (int i = 0; i <= removalcount - 1; i++)
             {
                 GameObject obj = removalQueue[i];
-                obstacles.Remove(obj);
-                removalQueue.Remove(obj);
+                rooms.Remove(obj);
                 Destroy(obj);
                 Debug.Log(removalQueue.Count + i);
 
 
             }
+            removalQueue.Clear();
             removalTimer = 0;
         }
-        removalTimer++;
+        removalTimer += Time.deltaTime;
         obstacleTimer -= Time.deltaTime;
         if (obstacleTimer < 0)
         {
             obstacleTimer = obstacleCooldown;
             for(int i = 0; i <= 2; i++)
             {
-                GameObject obstacle = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Count - 1)];
+                GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
                 GameObject obj = Instantiate(obstacle, lanes[i]);
-                obstacles.Add(obj);
+                rooms.Add(obj);
             }
         }
     }
