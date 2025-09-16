@@ -10,36 +10,35 @@ public class ObstacleManager : MonoBehaviour
     private List<GameObject> roomPrefabs = new List<GameObject>();
     private List<GameObject> removalQueue = new List<GameObject>(); 
     private List<GameObject> rooms = new List<GameObject>();
+    private GameManager gameManager;
     private float removalTimer = 0;
     [SerializeField]
     private PlayerController controller;
     [SerializeField]
     private UIManager uiMan;
     [SerializeField]
-    private Transform[] lanes = new Transform[2];
+    private Transform spawnPos;
+    [Header("Obstacle settings")]
+    [SerializeField]
     private float obstacleSpeed = 0.5f;
-    private float obstacleCooldown = 2.5f;
-    private float obstacleTimer;
+    [SerializeField]
+    private float obstacleCooldown = 2.2f;
+    private float obstacleTimer = 0;
 
     //this class manages obstacles, their spawning, movement, and deletion.
 
     void Start()
     {
-        obstacleTimer = obstacleCooldown;
-
-        
-        for (int j = 0; j <= 2; j++)
+        gameManager = GameObject.FindFirstObjectByType<GameManager>();
+        for (int j = 0; j <= 1; j++)
         {
-            for (int i = 0; i <= lanes.Length -1; i++)
-            {
+
                 Debug.Log("Spawning");
-                Vector3 spawnPos = lanes[i].position;
-                float spawnDistance = spawnPos.z - controller.transform.position.z;
-                spawnPos = new Vector3(spawnPos.x, spawnPos.y, spawnPos.z - (spawnDistance  / (j+1)) + 15);
+                float spawnDistance = spawnPos.position.z - controller.transform.position.z;
+                Vector3 spawnPosition = new Vector3(spawnPos.position.x, spawnPos.position.y, spawnPos.position.z - (spawnDistance  / (j+1)));
                 GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
-                GameObject obj = Instantiate(obstacle, spawnPos, Quaternion.identity);
+                GameObject obj = Instantiate(obstacle, spawnPosition, Quaternion.identity);
                 rooms.Add(obj);
-            }
         } 
     }
 
@@ -48,8 +47,8 @@ public class ObstacleManager : MonoBehaviour
     {
         foreach(GameObject obstacle in rooms)
         {
-            obstacle.transform.position = new Vector3(obstacle.transform.position.x, obstacle.transform.position.y, obstacle.transform.position.z - obstacleSpeed);
-            if(obstacle.transform.position.z < controller.transform.position.z)
+            obstacle.transform.position = new Vector3(obstacle.transform.position.x, obstacle.transform.position.y, (obstacle.transform.position.z - obstacleSpeed * Time.deltaTime * gameManager.GetGameSpeed()));
+            if(obstacle.transform.position.z < controller.transform.position.z - 100)
             {
                 removalQueue.Add(obstacle);
             }
@@ -71,16 +70,13 @@ public class ObstacleManager : MonoBehaviour
             removalTimer = 0;
         }
         removalTimer += Time.deltaTime;
-        obstacleTimer -= Time.deltaTime;
+        obstacleTimer -= Time.deltaTime * gameManager.GetGameSpeed();
         if (obstacleTimer < 0)
         {
             obstacleTimer = obstacleCooldown;
-            for(int i = 0; i <= 2; i++)
-            {
-                GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
-                GameObject obj = Instantiate(obstacle, lanes[i]);
-                rooms.Add(obj);
-            }
+            GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
+            GameObject obj = Instantiate(obstacle, spawnPos.position, Quaternion.identity);
+            rooms.Add(obj);
         }
     }
 }

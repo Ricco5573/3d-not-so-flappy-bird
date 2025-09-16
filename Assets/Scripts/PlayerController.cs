@@ -15,13 +15,16 @@ public class PlayerController : MonoBehaviour
     private float jumpStrength, moveSpeed;
     private Rigidbody rb;
     private int score = 0;
+    private bool started = false;
     private bool isAlive = true;
     [Header("things i was too lazy to assign in code"),SerializeField]
     private UIManager uiMan;
+    private GameManager gameManager;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        gameManager = GameObject.FindFirstObjectByType<GameManager>();
     }
     void Update()
     {
@@ -50,18 +53,26 @@ public class PlayerController : MonoBehaviour
     private void Movement()
     {
         Quaternion targetRotation = quaternion.identity;
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(new Vector3(0, jumpStrength, 0));
+            if (!started)
+            {
+                gameManager.StartGame();
+                started = true;
+            }
         }
-        float moveDir = Input.GetAxis("Horizontal");
+        if (started)
+        {
+            float moveDir = Input.GetAxis("Horizontal");
 
-        moveDir *= moveSpeed;
-        Vector3 movement = new Vector3(moveDir, 0, 0);
-        this.gameObject.transform.position += movement;
-        float lean = movement.x * leanAmount;
-        targetRotation = quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, lean);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * leanSpeed);
+            moveDir *= moveSpeed;
+            Vector3 movement = new Vector3(moveDir, 0, 0);
+            this.gameObject.transform.position += movement;
+            float lean = movement.x * leanAmount;
+            targetRotation = quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, lean);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * leanSpeed);
+        }
     }
 }
