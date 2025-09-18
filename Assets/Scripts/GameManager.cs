@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameSpeed > 0)
         {
-            gameSpeed += 0.001f;
+            gameSpeed += 0.01f * Time.deltaTime;
         }
     }
 }

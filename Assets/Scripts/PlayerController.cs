@@ -12,9 +12,24 @@ public class PlayerController : MonoBehaviour
     private float leanAmount = 15f;      // How much to tilt based on movement
     private float leanSpeed = 5f;        // How quickly the tilt smooths into place
 
-    [Header("Player Movement"), SerializeField]
-    private float jumpStrength, moveSpeed;
+    [Header("Player settings"), SerializeField]
+    private float jumpStrength;
+    [SerializeField]
+    private float moveSpeed;
+    [SerializeField]
+    private int health = 3;
     private Rigidbody rb;
+    
+
+    [Header("Sounds"), SerializeField]
+    private AudioSource engineSound;
+    [SerializeField]
+    private AudioSource playerSound;
+    [SerializeField]
+    private AudioClip jumpSound;
+
+    private Camera cam;
+
     private int score = 0;
     private bool started = false;
     private bool isAlive = true;
@@ -26,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
@@ -41,19 +57,38 @@ public class PlayerController : MonoBehaviour
         if (isAlive)
         {
             Movement();
+            HandleAudio();
         }
     }
 
+
+    private void HandleAudio()
+    {
+        if(isAlive && started)
+        {
+            engineSound.pitch = gameManager.GetGameSpeed();
+        }
+    }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Obstacle" && isAlive)
+        if (collision.gameObject.tag == "Obstacle" && isAlive)
         {
-            isAlive = false;
-            uiMan.PlayerDeath();
-            gameManager.ResetGame();
-            foreach (ParticleSystem particle in engineParticles)
+            if (health == 1)
             {
-                particle.Stop();
+                health = 0;
+                isAlive = false;
+                uiMan.PlayerDeath();
+                gameManager.ResetGame();
+                foreach (ParticleSystem particle in engineParticles)
+                {
+                    particle.Stop();
+                }
+                engineSound.Stop();
+            }
+            else
+            {
+                health -= 1;
+                Destroy(collision.gameObject);
             }
         }
     }
@@ -70,6 +105,8 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation = quaternion.identity;
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
         {
+            playerSound.clip = jumpSound;
+            playerSound.Play();
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(new Vector3(0, jumpStrength, 0));
             if (!started)
@@ -99,6 +136,7 @@ public class PlayerController : MonoBehaviour
         {
             particle.Play();
         }
+        engineSound.Play();
         rb.isKinematic = false;
     }
     private void HandleParticles()
