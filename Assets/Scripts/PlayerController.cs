@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
 
     private Camera cam;
 
-    private int score = 0;
     private bool started = false;
     private bool isAlive = true;
     [Header("things i was too lazy to assign in code"),SerializeField]
