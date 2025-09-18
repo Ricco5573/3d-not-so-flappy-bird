@@ -19,12 +19,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private int health = 3;
     private Rigidbody rb;
-    
+
+    [Header("Player controlls")]
+    [SerializeField]
+    private InputAction move;
+    [SerializeField]    
+    private InputAction jump;
 
     [Header("Sounds"), SerializeField]
     private AudioSource engineSound;
     [SerializeField]
     private AudioSource playerSound;
+    [SerializeField]
+    private AudioClip hitSound;
     [SerializeField]
     private AudioClip jumpSound;
 
@@ -40,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+        move = InputSystem.actions.FindAction("Move");
+        jump = InputSystem.actions.FindAction("Jump");
         cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = true;
@@ -72,6 +81,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.tag == "Obstacle" && isAlive)
         {
+            playerSound.clip = hitSound;
+            playerSound.volume = 0.75f;
+            playerSound.Play();
             if (health == 1)
             {
                 health = 0;
@@ -91,20 +103,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    /* void OnMove(InputValue movementValue)
-     {
-         Vector2 moveDir = movementValue.Get<Vector2>();
-
-         moveDir *= moveSpeed;
-         Vector3 movement = new Vector3(moveDir.x, 0, 0);
-         this.gameObject.transform.position += movement;
-     }*/
     private void Movement()
     {
         Quaternion targetRotation = quaternion.identity;
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space))
+        if (jump.triggered)
         {
             playerSound.clip = jumpSound;
+            playerSound.volume = 0.25f;
             playerSound.Play();
             rb.linearVelocity = Vector3.zero;
             rb.AddForce(new Vector3(0, jumpStrength, 0));
@@ -115,9 +120,9 @@ public class PlayerController : MonoBehaviour
         }
         if (started)
         {
-            float moveDir = Input.GetAxis("Horizontal");
+            float moveDir = move.ReadValue<Vector2>().x;
 
-            moveDir *= moveSpeed;
+            moveDir *= moveSpeed * gameManager.GetGameSpeed();
             Vector3 movement = new Vector3(moveDir, 0, 0);
             this.gameObject.transform.position += movement;
             float lean = movement.x * leanAmount;
@@ -137,15 +142,5 @@ public class PlayerController : MonoBehaviour
         }
         engineSound.Play();
         rb.isKinematic = false;
-    }
-    private void HandleParticles()
-    {
-        if (!started)
-        {
-            foreach(ParticleSystem particle in engineParticles)
-            {
-                particle.playbackSpeed = gameManager.GetGameSpeed(); //i get its deprecated, but the suggested other solution doesnt work.
-            }
-        }
     }
 }

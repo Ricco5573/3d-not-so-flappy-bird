@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/main%20menu.uss?fileID=7433441132597879392&amp;guid=d658adbbc9e055a4b9ff4e78f4367181&amp;type=3#main menu" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label text="Derelict Racer" name="Title" />
+        <ui:Button text="Play" name="Play" />
+        <ui:Button text="Quit" name="Quit" />
+    </ui:VisualElement>
+</ui:UXML>

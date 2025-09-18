@@ -10802,11 +10802,15 @@ MonoBehaviour:
   - {fileID: 1075389492466850966, guid: d1f652c7c6fa9ef468975eebffdaf86d, type: 3}
   - {fileID: 2182165932604067028, guid: 592c6d5b660e2214fa2d95a8750e8376, type: 3}
   - {fileID: 1714327095201684432, guid: 5eac3aeeaf78b164999275ea686c0e91, type: 3}
+  - {fileID: 2809536218827819780, guid: 4e37cae51b1c20b4da2469b52583c17f, type: 3}
+  - {fileID: 7685824416593018164, guid: cd36e01fc664073429feaf15cd8938d2, type: 3}
+  - {fileID: 4694387433682835003, guid: dd3211a37cbf4f545a9ef27669e561f9, type: 3}
+  - {fileID: 6553147508721011765, guid: a18dcb7912415c54ca97b6beb9bc14b0, type: 3}
   controller: {fileID: 815320528}
   uiMan: {fileID: 1500889052}
   spawnPos: {fileID: 945249923}
   obstacleSpeed: 15
-  obstacleCooldown: 5
+  obstacleCooldown: 5.7
 --- !u!1 &702169025 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cae9b4c1510a6c7449f0b7941ef83e50, type: 3}
@@ -10969,10 +10973,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leanAmount: -2
   jumpStrength: 75
-  moveSpeed: 0.5
+  moveSpeed: 0.25
   health: 3
+  move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f3b78df5-0db6-4cde-a6dd-ca88ece01e36
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  jump:
+    m_Name: Jump
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 790bccdc-e626-4cc9-93d5-e838a80c38fa
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
   engineSound: {fileID: 1117096056}
   playerSound: {fileID: 815320531}
+  hitSound: {fileID: 8300000, guid: 7a26194617c618442a5227f77c0742f3, type: 3}
   jumpSound: {fileID: 8300000, guid: eb1cd32bf9c87ee42a6d48570fc13cd0, type: 3}
   uiMan: {fileID: 1500889052}
 --- !u!114 &815320529
@@ -11002,7 +11025,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Bird
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 1923434773}
 --- !u!54 &815320530
@@ -17009,7 +17032,7 @@ Transform:
   m_GameObject: {fileID: 1923434770}
   serializedVersion: 2
   m_LocalRotation: {x: 0.122789904, y: -0, z: -0, w: 0.9924327}
-  m_LocalPosition: {x: 0, y: 32, z: -20.13}
+  m_LocalPosition: {x: 0, y: 30.99, z: -18.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

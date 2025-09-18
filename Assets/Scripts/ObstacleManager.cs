@@ -74,7 +74,7 @@ public class ObstacleManager : MonoBehaviour
         if (obstacleTimer < 0)
         {
             obstacleTimer = obstacleCooldown;
-            GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count - 1)];
+            GameObject obstacle = roomPrefabs[Random.Range(0, roomPrefabs.Count )];
             GameObject obj = Instantiate(obstacle, spawnPos.position, Quaternion.identity);
             rooms.Add(obj);
         }

@@ -1,0 +1,40 @@
+VisualElement {
+    background-color: rgba(186, 186, 186, 0);
+}
+
+VisualElement > #Title {
+    font-size: 45px;
+    -unity-text-align: upper-center;
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    letter-spacing: 10px;
+    -unity-font-definition: url("project://database/Assets/Art/Fonts/BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght.ttf?fileID=12800000&guid=8a24a910fc6f1554fa75491af19464ab&type=3#BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght");
+}
+
+VisualElement > #Play {
+    white-space: pre-wrap;
+    -unity-text-align: middle-center;
+    align-self: center;
+    align-items: center;
+    width: 229px;
+    height: 47px;
+    font-size: 32px;
+    letter-spacing: 27px;
+    margin-top: 32px;
+    -unity-font-definition: url("project://database/Assets/Art/Fonts/BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght.ttf?fileID=12800000&guid=8a24a910fc6f1554fa75491af19464ab&type=3#BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght");
+    color: rgb(57, 56, 56);
+}
+
+VisualElement > #Quit {
+    white-space: pre-wrap;
+    -unity-text-align: middle-center;
+    align-self: center;
+    align-items: center;
+    width: 229px;
+    height: 47px;
+    font-size: 32px;
+    letter-spacing: 27px;
+    margin-top: 32px;
+    -unity-font-definition: url("project://database/Assets/Art/Fonts/BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght.ttf?fileID=12800000&guid=8a24a910fc6f1554fa75491af19464ab&type=3#BitcountSingleInk-VariableFont_CRSV,ELSH,ELXP,SZP1,SZP2,XPN1,XPN2,YPN1,YPN2,slnt,wght");
+    color: rgb(57, 56, 56);
+}
